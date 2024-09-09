@@ -13,6 +13,10 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    environment:
+      name: 'Production'
+    permissions:
+      id-token: write #This is required for requesting the JWT
 
     steps:
       - uses: actions/checkout@v4
@@ -21,6 +25,13 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.10'
+
+      - name: Login to Azure
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_038C38D18ED74BC080A840BBEA3B7509 }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_70489CB004BF47E1875110B180CE5165 }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_D36E8BA97AE143DB8C0A714ACD529D2C }}
 
       - name: Create and start virtual environment
         run: |
