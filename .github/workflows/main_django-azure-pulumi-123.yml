@@ -35,6 +35,8 @@ jobs:
       
       - name: Deploy Infra using Pulumi
         run: |
+          source venv/bin/activate
+          pip install pulumi pulumi-azure-native
           pulumi stack select tentativa-django
           pulumi up --yes
         env:
