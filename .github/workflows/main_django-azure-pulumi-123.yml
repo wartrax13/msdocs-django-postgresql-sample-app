@@ -44,7 +44,7 @@ jobs:
           pip install -r requirements.txt
 
       - name: Applying infrastructure 🚀
-        uses: pulumi/actions@v6
+        uses: pulumi/actions@v4
         with:
           command: preview
           stack-name: tentativa-django
