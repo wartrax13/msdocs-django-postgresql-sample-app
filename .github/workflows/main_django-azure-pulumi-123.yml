@@ -41,8 +41,6 @@ jobs:
       - name: Deploy Infra using Pulumi
         run: |
           pip freeze
-          source venv/bin/activate
-          pip freeze
           pulumi stack select tentativa-django
           pulumi up --yes
         env:
