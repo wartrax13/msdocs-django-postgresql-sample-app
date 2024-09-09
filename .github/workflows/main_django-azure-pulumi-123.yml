@@ -31,16 +31,18 @@ jobs:
           source venv/bin/activate
       
       - name: Install dependencies
-        run: pip install -r requirements.txt
+        run: |
+          source venv/bin/activate
+          pip install -r requirements.txt
 
       - name: Pulumi Install
         run: |
-          curl -fsSL https://get.pulumi.com | sh
-          pulumi version
+          source venv/bin/activate
+          pip install pulumi
 
       - name: Deploy Infra using Pulumi
         run: |
-          pip freeze
+          source venv/bin/activate
           pulumi stack select tentativa-django
           pulumi up --yes
         env:
