@@ -13,10 +13,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    environment:
-      name: 'Production'
-    permissions:
-      id-token: write #This is required for requesting the JWT
 
     steps:
       - uses: actions/checkout@v4
@@ -26,40 +22,44 @@ jobs:
         with:
           python-version: '3.10'
 
-      - name: Azure Login
-        uses: azure/login@v1
-        with:
-          client-id: ${{ secrets.AZURE_CLIENT_ID }}
-          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-          client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
-          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-
-      - name: Create and start virtual environment and pip
+      - name: Create and start virtual environment
         run: |
           python -m venv venv
           source venv/bin/activate
-          pip install -r requirements.txt
+      
+      - name: Install dependencies
+        run: pip install -r requirements.txt
 
-      # Seleciona o stack do Pulumi ou cria um se ainda não existir
-      - name: Select Pulumi Stack
-        run: pulumi stack select wartrax13/pulumi-django/tentativa-django
-        env:
-          PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
+      # # Seleciona o stack do Pulumi ou cria um se ainda não existir
+      # - name: Select Pulumi Stack
+      #   run: pulumi stack select wartrax13/pulumi-django/tentativa-django
+      #   env:
+      #     PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
 
-      # Configura a localização para "Brazil South" após selecionar o stack
-      - name: Configure Pulumi Location
-        run: pulumi config set azure-native:location "Brazil South"
-        env:
-          PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
+      # # Configura a localização para "Brazil South" após selecionar o stack
+      # - name: Configure Pulumi Location
+      #   run: pulumi config set azure-native:location "Brazil South"
+      #   env:
+      #     PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
 
-      # Executa o Pulumi para deploy da infraestrutura
-      - name: Deploy Infra using Pulumi
-        run: |
-            source venv/bin/activate
-            pip install pulumi pulumi-azure-native
-            pulumi up --yes
-        env:
-          PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
+      # # Executa o Pulumi para deploy da infraestrutura
+      # - name: Deploy Infra using Pulumi
+      #   run: pulumi up --yes
+      #   env:
+      #     PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
+      #     AZURE_CLIENT_ID: ${{ secrets.AZUREAPPSERVICE_CLIENTID_038C38D18ED74BC080A840BBEA3B7509 }}
+      #     AZURE_TENANT_ID: ${{ secrets.AZUREAPPSERVICE_TENANTID_70489CB004BF47E1875110B180CE5165 }}
+      #     AZURE_SUBSCRIPTION_ID: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_D36E8BA97AE143DB8C0A714ACD529D2C }}
+
+      # Captura o nome do Resource Group e do App Service criado pelo Pulumi
+      # - name: Get App Service and Resource Group Names
+      #   id: get_names
+      #   run: |
+      #     echo "RG_NAME=$(pulumi stack output resource_group_name)" >> $GITHUB_ENV
+      #     echo "APP_NAME=$(pulumi stack output app_service_name)" >> $GITHUB_ENV
+      #   env:
+      #     PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
+      # Optional: Add step to run tests here (PyTest, Django test suites, etc.)
 
       - name: Zip artifact for deployment
         run: zip release.zip ./* -r
@@ -97,7 +97,6 @@ jobs:
           client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_038C38D18ED74BC080A840BBEA3B7509 }}
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_70489CB004BF47E1875110B180CE5165 }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_D36E8BA97AE143DB8C0A714ACD529D2C }}
-          client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
 
       - name: 'Deploy to Azure Web App'
         uses: azure/webapps-deploy@v3
