@@ -55,7 +55,9 @@ jobs:
 
       # Executa o Pulumi para deploy da infraestrutura
       - name: Deploy Infra using Pulumi
-        run: pulumi up --yes
+        run: |
+            source venv/bin/activate
+            pulumi up --yes
         env:
           PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
           AZURE_CLIENT_ID: ${{ secrets.AZUREAPPSERVICE_CLIENTID_038C38D18ED74BC080A840BBEA3B7509 }}
