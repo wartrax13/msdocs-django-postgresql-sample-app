@@ -15,8 +15,6 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: 'Production'
-    permissions:
-      id-token: write #This is required for requesting the JWT
 
     steps:
       - uses: actions/checkout@v4
@@ -37,9 +35,7 @@ jobs:
         run: |
           python -m venv venv
           source venv/bin/activate
-      
-      - name: Install dependencies
-        run: pip install -r requirements.txt
+          pip install -r requirements.txt
 
       # Seleciona o stack do Pulumi ou cria um se ainda não existir
       - name: Select Pulumi Stack
@@ -57,6 +53,7 @@ jobs:
       - name: Deploy Infra using Pulumi
         run: |
             source venv/bin/activate
+            pip install pulumi pulumi-azure-native
             pulumi up --yes
         env:
           PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
