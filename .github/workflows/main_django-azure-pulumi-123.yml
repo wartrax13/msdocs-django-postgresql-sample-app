@@ -32,6 +32,7 @@ jobs:
           client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_038C38D18ED74BC080A840BBEA3B7509 }}
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_70489CB004BF47E1875110B180CE5165 }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_D36E8BA97AE143DB8C0A714ACD529D2C }}
+          client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
 
       - name: Create and start virtual environment and pip
         run: |
@@ -62,6 +63,7 @@ jobs:
           AZURE_CLIENT_ID: ${{ secrets.AZUREAPPSERVICE_CLIENTID_038C38D18ED74BC080A840BBEA3B7509 }}
           AZURE_TENANT_ID: ${{ secrets.AZUREAPPSERVICE_TENANTID_70489CB004BF47E1875110B180CE5165 }}
           AZURE_SUBSCRIPTION_ID: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_D36E8BA97AE143DB8C0A714ACD529D2C }}
+          AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
 
       - name: Zip artifact for deployment
         run: zip release.zip ./* -r
@@ -99,6 +101,7 @@ jobs:
           client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_038C38D18ED74BC080A840BBEA3B7509 }}
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_70489CB004BF47E1875110B180CE5165 }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_D36E8BA97AE143DB8C0A714ACD529D2C }}
+          client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
 
       - name: 'Deploy to Azure Web App'
         uses: azure/webapps-deploy@v3
