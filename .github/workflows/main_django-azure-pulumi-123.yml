@@ -41,26 +41,26 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      # # Seleciona o stack do Pulumi ou cria um se ainda não existir
-      # - name: Select Pulumi Stack
-      #   run: pulumi stack select wartrax13/pulumi-django/tentativa-django
-      #   env:
-      #     PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
+      # Seleciona o stack do Pulumi ou cria um se ainda não existir
+      - name: Select Pulumi Stack
+        run: pulumi stack select wartrax13/pulumi-django/tentativa-django
+        env:
+          PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
 
-      # # Configura a localização para "Brazil South" após selecionar o stack
-      # - name: Configure Pulumi Location
-      #   run: pulumi config set azure-native:location "Brazil South"
-      #   env:
-      #     PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
+      # Configura a localização para "Brazil South" após selecionar o stack
+      - name: Configure Pulumi Location
+        run: pulumi config set azure-native:location "Brazil South"
+        env:
+          PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
 
-      # # Executa o Pulumi para deploy da infraestrutura
-      # - name: Deploy Infra using Pulumi
-      #   run: pulumi up --yes
-      #   env:
-      #     PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
-      #     AZURE_CLIENT_ID: ${{ secrets.AZUREAPPSERVICE_CLIENTID_038C38D18ED74BC080A840BBEA3B7509 }}
-      #     AZURE_TENANT_ID: ${{ secrets.AZUREAPPSERVICE_TENANTID_70489CB004BF47E1875110B180CE5165 }}
-      #     AZURE_SUBSCRIPTION_ID: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_D36E8BA97AE143DB8C0A714ACD529D2C }}
+      # Executa o Pulumi para deploy da infraestrutura
+      - name: Deploy Infra using Pulumi
+        run: pulumi up --yes
+        env:
+          PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
+          AZURE_CLIENT_ID: ${{ secrets.AZUREAPPSERVICE_CLIENTID_038C38D18ED74BC080A840BBEA3B7509 }}
+          AZURE_TENANT_ID: ${{ secrets.AZUREAPPSERVICE_TENANTID_70489CB004BF47E1875110B180CE5165 }}
+          AZURE_SUBSCRIPTION_ID: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_D36E8BA97AE143DB8C0A714ACD529D2C }}
 
       # Captura o nome do Resource Group e do App Service criado pelo Pulumi
       # - name: Get App Service and Resource Group Names
