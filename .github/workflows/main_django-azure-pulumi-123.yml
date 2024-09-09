@@ -60,7 +60,7 @@ jobs:
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_D36E8BA97AE143DB8C0A714ACD529D2C }}
       # Seleciona o stack do Pulumi ou cria um se ainda não existir
       - name: Select Pulumi Stack
-        run: pulumi stack select tentativa-django || pulumi stack init tentativa-django
+        run: pulumi stack select wartrax13/pulumi-django/tentativa-django
         env:
           PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
 
