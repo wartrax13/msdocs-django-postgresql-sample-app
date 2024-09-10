@@ -1,9 +1,16 @@
 import pulumi
 import pulumi_azure_native as azure_native
 
+# az resource list --resource-group django-azure-pulumi-123_group --output table
+# az resource show --ids "/subscriptions/SUBSCRIPTION_ID/resourceGroups/RESOURCE_GROUP" output table
 # Subscription ID e Resource Group
 SUBSCRIPTION_ID = "e4185ffd-c704-4d32-b91d-2eb74f9b85e7"
 RESOURCE_GROUP = "django-azure-pulumi-123_group"
+
+# Recuperar o Resource Group chamado "django-azure-pulumi-123_group"
+resource_group = azure_native.resources.ResourceGroup.get("django-azure-pulumi-123_group",
+    f"/subscriptions/{SUBSCRIPTION_ID}/resourceGroups/django-azure-pulumi-123_group"
+)
 
 # Importar Virtual Network
 vnet = azure_native.network.VirtualNetwork.get("django-azure-pulumi-123Vnet", 
@@ -42,6 +49,7 @@ postgres_dns = azure_native.network.PrivateZone.get("privatelink.postgres.databa
 
 # Exportar saídas para facilitar uso em outras partes do código
 pulumi.export("app_service", app_service.name)
+pulumi.export("resource_group_name", resource_group.name)
 pulumi.export("redis_cache", redis_cache.name)
 pulumi.export("postgresql_server", postgresql_server.name)
 pulumi.export("vnet", vnet.name)
